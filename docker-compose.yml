@@ -1,0 +1,24 @@
+services:
+  blacklist:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - blacklist_db
+    env_file:
+      - src/.env
+
+  blacklist_db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_pwd
+      POSTGRES_DB: blacklist_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_blacklist_db:/var/lib/postgresql/data
+
+volumes:
+  postgres_data_blacklist_db:
