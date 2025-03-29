@@ -10,6 +10,6 @@ RUN python -m venv venv && \
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 8000
 
-CMD ["venv/bin/python", "src/main.py"]
+CMD ["venv/bin/python", "src/application.py"]
