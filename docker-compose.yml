@@ -2,7 +2,7 @@ services:
   blacklist:
     build: .
     ports:
-      - "5000:5000"
+      - "8000:8000"
     depends_on:
       - blacklist_db
     env_file:
