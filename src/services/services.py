@@ -27,8 +27,8 @@ def addBlacklistEmail(email_data, ip_address):
   try:
     record = BlackListedEmail(
       email = email_data['email'],
-      appId = email_data['appId'],
-      reason = email_data['reason'],
+      appId = email_data['app_uuid'],
+      reason = email_data['blocked_reason'],
       ipAddress = ip_address
     )
     
