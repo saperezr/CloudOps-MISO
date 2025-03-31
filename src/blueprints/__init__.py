@@ -1,1 +1,1 @@
-from blueprints.routes import main
+from blueprints.routes import main, blacklists
