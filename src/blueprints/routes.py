@@ -3,15 +3,14 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, jwt_required
 from services import addBlacklistEmail, getEmailFromBlacklist
 
-main = Blueprint("main", __name__, url_prefix='/blacklists')
-
+main = Blueprint("main", __name__)
 
 @main.route("/ping", methods=(['GET']))
 def ping():
   return {"msg": "Solo para confirmar que el servicio está arriba."}, 200
 
 
-@main.route("/token", methods=["GET"])
+@main.route("/token", methods=["POST"])
 def get_token():
   JWT_TOKEN = create_access_token(
     identity="testuser",
@@ -20,8 +19,9 @@ def get_token():
   
   return jsonify({"token": JWT_TOKEN})
 
+blacklists = Blueprint("blacklists", __name__, url_prefix='/blacklists')
 
-@main.route("/", methods=(['POST']))
+@blacklists.route("/", methods=(['POST']))
 @jwt_required()
 def addEmailToBlacklist():
   data = request.get_json()
@@ -35,7 +35,7 @@ def addEmailToBlacklist():
   return jsonify({"msg": "El email fue agregado existosamente."}), 200
 
 
-@main.route("/<string:email>", methods=(['GET']))
+@blacklists.route("/<string:email>", methods=(['GET']))
 @jwt_required()
 def getEmailInfo(email):
   result = getEmailFromBlacklist(email)

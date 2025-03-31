@@ -1,1 +1,1 @@
-from services.services import addBlacklistEmail, getEmailFromBlacklist
+from .services import addBlacklistEmail, getEmailFromBlacklist

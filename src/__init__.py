@@ -2,6 +2,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from models import db
 from config import Config
+from blueprints import main, blacklists
 
 jwt = JWTManager()
 
@@ -14,8 +15,8 @@ def create_app():
   
   with app.app_context():
     db.create_all()
-
-  from blueprints import main
+ 
   app.register_blueprint(main)
+  app.register_blueprint(blacklists)
 
   return app
