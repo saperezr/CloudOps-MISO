@@ -2,6 +2,7 @@ import datetime
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import create_access_token, jwt_required
 from services import addBlacklistEmail, getEmailFromBlacklist
+from errors.errors import ApiError
 
 main = Blueprint("main", __name__, url_prefix='/blacklists')
 
@@ -24,16 +25,13 @@ def get_token():
 @main.route("/", methods=(['POST']))
 @jwt_required()
 def addEmailToBlacklist():
-  data = request.get_json()
-  ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
-  
-  result = addBlacklistEmail(data, ip_address)
-  
-  if result is None:
-    return None, 500
-  
-  return jsonify({"msg": "El email fue agregado existosamente."}), 200
-
+  try:
+    data = request.get_json()
+    ip_address = request.headers.get('X-Forwarded-For', request.remote_addr)
+    result = addBlacklistEmail(data, ip_address)
+    return jsonify({"msg": "El email fue agregado existosamente."}), 200
+  except ApiError as err:
+    return jsonify({"msg": err.description}), err.code
 
 @main.route("/<string:email>", methods=(['GET']))
 @jwt_required()

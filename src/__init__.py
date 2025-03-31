@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from models import db
 from config import Config
@@ -17,5 +17,13 @@ def create_app():
 
   from blueprints import main
   app.register_blueprint(main)
+
+  from errors.errors import ApiError
+  @app.errorhandler(ApiError)
+  def handle_exception(err):
+      response = {
+          "msg": err.description,
+      }
+      return jsonify(response), err.code
 
   return app

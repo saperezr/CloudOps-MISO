@@ -6,7 +6,7 @@ services:
     depends_on:
       - blacklist_db
     env_file:
-      - src/.env
+      - .env.template
 
   blacklist_db:
     image: postgres
