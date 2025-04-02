@@ -1,20 +1,20 @@
 #!/bin/bash
 timestamp=$(date +%s)
-filename="build-${timestamp}.zip"
+filename="app.zip"
 output_dir="./build"
 
 mkdir -p "$output_dir"
 
-rsync -av --exclude='__pycache__' src/* $output_dir/bundle
-rsync requirements.txt $output_dir/bundle
+rsync -av --exclude='__pycache__' src/* $output_dir
+rsync requirements.txt $output_dir
 
-cd $output_dir/bundle
+cd $output_dir
 
 zip -r $filename *
 
 cd ..
-cp ./bundle/$filename .
+cp $output_dir/$filename .
 
-rm -rf bundle
+rm -rf $output_dir
 
-echo "Zip file saved to ${output_dir}/build-${timestamp}.zip"
+echo "Zip file saved to build-${timestamp}.zip"
