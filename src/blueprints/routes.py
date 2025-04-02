@@ -37,5 +37,5 @@ def addEmailToBlacklist():
 @jwt_required()
 def getEmailInfo(email):
   result = getEmailFromBlacklist(email)
-  
+
   return jsonify({"blacklisted": result is not None}), 200

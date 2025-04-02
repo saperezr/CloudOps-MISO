@@ -6,10 +6,10 @@ import uuid
 
 def addBlacklistEmail(email_data, ip_address):
   email = email_data.get('email')
-  app_id = email_data.get('appId')
-  reason = email_data.get('reason')
+  app_uuid = email_data.get('app_uuid')
+  reason = email_data.get('blocked_reason')
 
-  if not email or not app_id:
+  if not email or not app_uuid:
     raise MissingFieldsError
 
   email_regex = r"[^@]+@[^@]+\.[^@]+"
@@ -17,7 +17,7 @@ def addBlacklistEmail(email_data, ip_address):
     raise InvalidSearchFieldsError
 
   try:
-    uuid.UUID(str(app_id))
+    uuid.UUID(str(app_uuid))
   except ValueError:
     raise InvalidUUIDError
 
@@ -26,9 +26,9 @@ def addBlacklistEmail(email_data, ip_address):
 
   try:
     record = BlackListedEmail(
-      email = email_data['email'],
-      appId = email_data['app_uuid'],
-      reason = email_data['blocked_reason'],
+      email = email,
+      appId = app_uuid,
+      reason = reason,
       ipAddress = ip_address
     )
     
