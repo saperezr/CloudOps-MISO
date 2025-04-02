@@ -1,5 +1,4 @@
 #!/bin/bash
-timestamp=$(date +%s)
 filename="app.zip"
 output_dir="./build"
 
@@ -17,4 +16,4 @@ cp $output_dir/$filename .
 
 rm -rf $output_dir
 
-echo "Zip file saved to build-${timestamp}.zip"
+echo "Zip file saved to app.zip"
