@@ -12,9 +12,9 @@ cd $output_dir/bundle
 
 zip -r $filename *
 
-cp $filename ../
-
 cd ..
-rm -rf bundle;
+cp ./bundle/$filename .
+
+rm -rf bundle
 
 echo "Zip file saved to ${output_dir}/build-${timestamp}.zip"
