@@ -12,17 +12,17 @@ phases:
     commands:
       - echo "Extracting application..."
       - unzip app.zip -d ./app
-      - cd app
 
   build:
     commands:
       - echo "Running unit tests..."
+      - cd app
       - python -m pytest tests/ --cov=src --cov-report=xml
+      - cd ..
 
   post_build:
     commands:
       - echo "Test phase completed"
-      - cd ..
 
 artifacts:
   files:
@@ -37,4 +37,4 @@ env:
   variables:
     ARTIFACT_NAME: "app.zip"
   parameter-store:
-    TEST_ENV: "/test/environment" 
+    TEST_ENV: "/test/environment"
