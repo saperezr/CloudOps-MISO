@@ -1,0 +1,40 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install -r requirements.txt
+      - pip install pytest pytest-cov
+
+  pre_build:
+    commands:
+      - echo "Extracting application..."
+      - unzip app.zip -d ./app
+      - cd app
+
+  build:
+    commands:
+      - echo "Running unit tests..."
+      - python -m pytest tests/ --cov=src --cov-report=xml
+
+  post_build:
+    commands:
+      - echo "Test phase completed"
+      - cd ..
+
+artifacts:
+  files:
+    - app/coverage.xml
+  name: test-results-$(date +%Y-%m-%d-%H-%M-%S)
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
+
+env:
+  variables:
+    ARTIFACT_NAME: "app.zip"
+  parameter-store:
+    TEST_ENV: "/test/environment" 
