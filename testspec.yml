@@ -18,8 +18,7 @@ phases:
     commands:
       - echo "Running unit tests..."
       - cd app
-      - coverage run -m pytest tests/
-      - coverage xml
+      - python run_tests.py
       - cd ..
 
   post_build:
