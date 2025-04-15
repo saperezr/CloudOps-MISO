@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install -r requirements.txt
+
+  build:
+    commands:
+      - echo "Building application..."
+      - python -m pip install --upgrade pip
+      - pip install -r requirements.txt
+
+  post_build:
+    commands:
+      - echo "Preparing artifacts..."
+      - zip -r app.zip src/ requirements.txt tests/ run_tests.py
+      - echo "Build completed on `date`"
+
+artifacts:
+  files:
+    - app.zip
+    - buildspec.yml
+    - testspec.yml
+  discard-paths: no
+  base-directory: .
+  name: build-artifact-$(date +%Y-%m-%d-%H-%M-%S)
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*' 

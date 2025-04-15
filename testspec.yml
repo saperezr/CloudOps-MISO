@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+
+  pre_build:
+    commands:
+      - echo "Extracting application..."
+      - unzip app.zip -d ./app
+      - cd app
+      - pip install -r requirements.txt
+      - pip install pytest pytest-cov flask-sqlalchemy flask-jwt-extended
+      - cd ..
+
+  build:
+    commands:
+      - echo "Running unit tests..."
+      - cd app
+      - python run_tests.py
+      - cd ..
+
+  post_build:
+    commands:
+      - echo "Test phase completed"
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'
+
+env:
+  variables:
+    ARTIFACT_NAME: "app.zip"
+    SQLALCHEMY_DATABASE_URI: "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS: "False"
+    JWT_SECRET_KEY: "test-key"
+
