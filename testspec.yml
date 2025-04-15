@@ -35,3 +35,11 @@ artifacts:
 cache:
   paths:
     - '/root/.cache/pip/**/*'
+
+env:
+  variables:
+    ARTIFACT_NAME: "app.zip"
+    SQLALCHEMY_DATABASE_URI: "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS: "False"
+    JWT_SECRET_KEY: "test-key"
+
