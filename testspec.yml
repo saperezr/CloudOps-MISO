@@ -10,24 +10,28 @@ phases:
       - echo "Extracting application..."
       - unzip app.zip -d ./app
       - cd app
+      - export PYTHONPATH=$PYTHONPATH:$(pwd)
+      - export FLASK_APP=application.py
+      - export FLASK_ENV=testing
       - pip install -r requirements.txt
-      - pip install pytest pytest-cov
+      - pip install pytest pytest-cov flask-sqlalchemy flask-jwt-extended
       - cd ..
 
   build:
     commands:
       - echo "Running unit tests..."
       - cd app
-      - python -m pytest tests/ --cov=src --cov-report=xml
+      - python -m pytest tests/ --cov=src --cov-report=xml -v
       - cd ..
 
   post_build:
     commands:
       - echo "Test phase completed"
+      - cp app/coverage.xml .
 
 artifacts:
   files:
-    - app/coverage.xml
+    - coverage.xml
   name: test-results-$(date +%Y-%m-%d-%H-%M-%S)
 
 cache:
@@ -37,3 +41,6 @@ cache:
 env:
   variables:
     ARTIFACT_NAME: "app.zip"
+    SQLALCHEMY_DATABASE_URI: "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS: "False"
+    JWT_SECRET_KEY: "test-key"
