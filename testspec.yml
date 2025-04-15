@@ -24,12 +24,6 @@ phases:
   post_build:
     commands:
       - echo "Test phase completed"
-      - cp app/coverage.xml . || true
-
-artifacts:
-  files:
-    - coverage.xml
-  name: test-results-$(date +%Y-%m-%d-%H-%M-%S)
 
 cache:
   paths:
