@@ -16,7 +16,7 @@ phases:
   post_build:
     commands:
       - echo "Preparing artifacts..."
-      - zip -r app.zip src/ requirements.txt tests/
+      - zip -r app.zip src/ requirements.txt tests/ run_tests.py
       - echo "Build completed on `date`"
 
 artifacts:
