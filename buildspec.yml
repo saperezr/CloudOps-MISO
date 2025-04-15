@@ -5,23 +5,28 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
-      - echo "Installing dependencies..."
-      - python -m pip install --upgrade pip
       - pip install -r requirements.txt
 
   build:
     commands:
       - echo "Building application..."
-      - zip -r app.zip src/ requirements.txt
+      - python -m pip install --upgrade pip
+      - pip install -r requirements.txt
 
   post_build:
     commands:
-      - echo "Build and tests completed"
+      - echo "Preparing artifacts..."
+      - zip -r app.zip src/ requirements.txt tests/
+      - echo "Build completed on `date`"
 
 artifacts:
   files:
     - app.zip
-  name: app-$(date +%Y-%m-%d-%H-%M-%S)
+    - buildspec.yml
+    - testspec.yml
+  discard-paths: no
+  base-directory: .
+  name: build-artifact-$(date +%Y-%m-%d-%H-%M-%S)
 
 cache:
   paths:
