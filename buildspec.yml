@@ -1,28 +1,15 @@
 version: 0.2
 
 phases:
-  install:
-    runtime-versions:
-      python: 3.9
+  pre_build:
     commands:
+      - echo Logging in to Amazon ECR...
       - pip install -r requirements.txt
 
-  build:
+  build:  
     commands:
-      - echo "Building application..."
-      - python -m pip install --upgrade pip
-      - pip install -r requirements.txt
-
-  post_build:
-    commands:
-      - echo "Preparing artifacts..."
-      - zip -r app.zip src/ requirements.txt
+      - echo Build phase...
 
 artifacts:
   files:
-    - app.zip
-  name: app-$(date +%Y-%m-%d-%H-%M-%S)
-
-cache:
-  paths:
-    - '/root/.cache/pip/**/*' 
+    - '**/*'
