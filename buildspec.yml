@@ -5,18 +5,20 @@ phases:
     runtime-versions:
       python: 3.9
     commands:
+      - echo "Installing dependencies..."
+      - python -m pip install --upgrade pip
       - pip install -r requirements.txt
 
   build:
     commands:
+      - echo "Running tests..."
+      - python ./run_tests.py 
       - echo "Building application..."
-      - python -m pip install --upgrade pip
-      - pip install -r requirements.txt
+      - zip -r app.zip src/ requirements.txt
 
   post_build:
     commands:
-      - echo "Preparing artifacts..."
-      - zip -r app.zip src/ requirements.txt
+      - echo "Build and tests completed"
 
 artifacts:
   files:
