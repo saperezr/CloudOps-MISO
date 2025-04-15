@@ -32,8 +32,7 @@ artifacts:
 cache:
   paths:
     - '/root/.cache/pip/**/*'
+
 env:
   variables:
     ARTIFACT_NAME: "app.zip"
-  parameter-store:
-    TEST_ENV: "/test/environment"
