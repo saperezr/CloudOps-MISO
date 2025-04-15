@@ -32,7 +32,6 @@ artifacts:
 cache:
   paths:
     - '/root/.cache/pip/**/*'
-
 env:
   variables:
     ARTIFACT_NAME: "app.zip"
