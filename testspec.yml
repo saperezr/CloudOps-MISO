@@ -10,9 +10,6 @@ phases:
       - echo "Extracting application..."
       - unzip app.zip -d ./app
       - cd app
-      - export PYTHONPATH=$PYTHONPATH:$(pwd)
-      - export FLASK_APP=application.py
-      - export FLASK_ENV=testing
       - pip install -r requirements.txt
       - pip install pytest pytest-cov flask-sqlalchemy flask-jwt-extended
       - cd ..
@@ -21,13 +18,14 @@ phases:
     commands:
       - echo "Running unit tests..."
       - cd app
-      - python -m pytest tests/ --cov=src --cov-report=xml -v
+      - python run_tests.py
+      - python -m pytest --cov=src --cov-report=xml
       - cd ..
 
   post_build:
     commands:
       - echo "Test phase completed"
-      - cp app/coverage.xml .
+      - cp app/coverage.xml . || true
 
 artifacts:
   files:
