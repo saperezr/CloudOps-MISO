@@ -4,14 +4,15 @@ phases:
   install:
     runtime-versions:
       python: 3.9
-    commands:
-      - pip install -r requirements.txt
-      - pip install pytest pytest-cov
 
   pre_build:
     commands:
       - echo "Extracting application..."
       - unzip app.zip -d ./app
+      - cd app
+      - pip install -r requirements.txt
+      - pip install pytest pytest-cov
+      - cd ..
 
   build:
     commands:
