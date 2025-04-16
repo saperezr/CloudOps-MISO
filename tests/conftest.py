@@ -8,7 +8,7 @@ from flask import Flask
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
 
-# Crear una aplicación Flask para pruebas
+
 app = Flask(__name__)
 app.config['TESTING'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
@@ -34,20 +34,16 @@ class MockBlackListedEmail:
 
 # Aplicar los mocks globalmente
 def apply_mocks():
-    # Mock para la base de datos
+
     mock_db = MockDB()
     patch('models.db', mock_db).start()
     
-    # Mock para el modelo BlackListedEmail
     patch('models.BlackListedEmail', MockBlackListedEmail).start()
     
-    # Mock para flask_jwt_extended
     patch('flask_jwt_extended.create_access_token', lambda identity, expires_delta: "mock.jwt.token").start()
     patch('flask_jwt_extended.jwt_required', lambda f: f).start()
 
-# Aplicar los mocks al inicio de las pruebas
 apply_mocks()
 
-# Crear un contexto de aplicación para las pruebas
 app_context = app.app_context()
 app_context.push() 
